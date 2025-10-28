@@ -1,6 +1,7 @@
 package com.kt.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,5 +39,10 @@ public class UserController {
 	public User read(@PathVariable String loginId) {
 		System.out.println(loginId);
 		return userService.findByLoginId(loginId);
+	}
+
+	@DeleteMapping("/users/{loginId}")
+	public void delete(@PathVariable String loginId) {
+		userService.delete(loginId);
 	}
 }

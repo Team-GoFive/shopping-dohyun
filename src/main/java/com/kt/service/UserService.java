@@ -5,4 +5,5 @@ import com.kt.dto.UserCreateRequest;
 public interface UserService {
 	void create(UserCreateRequest request);
 	User findByLoginId(String loginId);
+	void delete(String loginId);
 }

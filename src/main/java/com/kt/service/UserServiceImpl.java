@@ -28,4 +28,9 @@ public class UserServiceImpl implements UserService {
 		return userRepository.read(loginId);
 	}
 
+	@Override
+	public void delete(String loginId) {
+		userRepository.delete(loginId);
+	}
+
 }
