@@ -18,4 +18,19 @@ public class UserRepository {
 		jdbcTemplate.update(sql, user.getLoginId(), user.getPassword(), user.getName(), user.getBirthday());
 		System.out.println("user = " + user.toString());
 	}
+
+	public User read(String loginId) {
+		var sql = "SELECT * FROM MEMBER WHERE loginId = ?";
+		return jdbcTemplate.queryForObject(
+			sql,
+			(rs, rowNum) -> new User(
+				rs.getString("loginId"),
+				rs.getString("password"),
+				rs.getString("name"),
+				rs.getDate("birthday").toLocalDate()
+			),
+			loginId
+		);
+
+	}
 }

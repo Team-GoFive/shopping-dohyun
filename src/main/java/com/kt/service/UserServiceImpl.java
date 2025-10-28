@@ -22,4 +22,10 @@ public class UserServiceImpl implements UserService {
 			request.birthday()
 		));
 	}
+
+	@Override
+	public User findByLoginId(String loginId) {
+		return userRepository.read(loginId);
+	}
+
 }
