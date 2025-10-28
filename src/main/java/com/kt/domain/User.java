@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-// @NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class User {
 	private String loginId;
