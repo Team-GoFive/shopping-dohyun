@@ -14,4 +14,8 @@ public class User {
 	private String password;
 	private String name;
 	private LocalDate birthday;
+
+	public static User userOf(String loginId, String password, String name, LocalDate birthday) {
+		return new User(loginId, password, name, birthday);
+	}
 }

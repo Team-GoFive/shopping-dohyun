@@ -15,12 +15,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void create(UserCreateRequest request) {
-		userRepository.save(new User(
-			request.loginId(),
-			request.password(),
-			request.name(),
-			request.birthday()
-		));
+		userRepository.save(request.toEntity());
 	}
 
 	@Override
@@ -35,12 +30,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void update(UserCreateRequest request) {
-		userRepository.update(new User(
-			request.loginId(),
-			request.password(),
-			request.name(),
-			request.birthday()
-		));
+		userRepository.update(request.toEntity());
 	}
 
 
