@@ -11,6 +11,7 @@ public record UserCreateRequest(
 	String password,
 	String name,
 	String email,
+	String mobile,
 	LocalDateTime birth,
 	Gender gender,
 	LocalDateTime createdAt,
