@@ -1,10 +1,9 @@
 package com.kt.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 // @NoArgsConstructor
@@ -13,5 +12,9 @@ public class User {
 	private String loginId;
 	private String password;
 	private String name;
-	private LocalDate birthday;
+	private String email;
+	private LocalDateTime birth;
+	private Gender gender;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }
