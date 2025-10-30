@@ -9,6 +9,7 @@ import lombok.Getter;
 // @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+	private Long id;
 	private String loginId;
 	private String password;
 	private String name;

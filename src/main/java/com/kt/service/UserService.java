@@ -16,16 +16,22 @@ public class UserService {
 
 	public void create(UserCreateRequest request) {
 		System.out.println(request.toString());
-		var newUser  = new User(
+		var newUser = new User(
+			request.id(),
 			request.loginId(),
 			request.password(),
 			request.name(),
-			request.birthday()
+			request.email(),
+			request.birth(),
+			request.gender(),
+			request.createdAt(),
+			request.updatedAt()
 		);
 
 		// repository로 넘김
 		userRepository.save(newUser);
 
-
 	}
+
+	// TODO: 아이디 중복 검사 만들기
 }
