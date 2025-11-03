@@ -1,6 +1,6 @@
 package com.kt.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.kt.domain.Gender;
 
@@ -25,7 +25,7 @@ public record UserCreateRequest(
 	@Pattern(regexp = "^(0\\d{1,2})-(\\d{3,4})-(\\d{4})$")
 	String mobile,
 	@NotNull
-	LocalDateTime birth,
+	LocalDate birth,
 	@NotBlank
 	Gender gender
 ) {

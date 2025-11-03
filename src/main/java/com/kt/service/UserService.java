@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 import com.kt.domain.User;
+import com.kt.dto.CustomPage;
 import com.kt.dto.UserCreateRequest;
 import com.kt.repository.UserRepository;
 
@@ -36,5 +37,40 @@ public class UserService {
 
 	}
 
-	// TODO: 아이디 중복 검사 만들기
+	public void changePassword(int id, String oldPassword, String password) {
+		var user = userRepository.selectById(id)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+		if (!user.getPassword().equals(oldPassword)) {
+			throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
+		}
+
+		if (oldPassword.equals(password)) {
+			throw new IllegalArgumentException("기존 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.");
+		}
+
+		userRepository.updatePassword(id, password);
+	}
+
+	public boolean isDuplicateLoginId(String loginId) {
+		return userRepository.existsByLoginId(loginId);
+	}
+
+	public CustomPage search(int page, int size, String keyword) {
+		var pair = userRepository.selectAll(page - 1, size, keyword);
+		var pages = (int)Math.ceil((double)pair.getSecond() / size);
+
+		return new CustomPage(
+			pair.getFirst(),
+			size,
+			page,
+			pages,
+			pair.getSecond()
+		);
+	}
+
+	public User detail(Long id) {
+		return userRepository.selectById(id)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+	}
 }
