@@ -2,19 +2,28 @@ package com.kt.domain.user;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.kt.common.BaseEntity;
+import com.kt.domain.order.Order;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 // 1. domain과 entity를 분리해야
 // 2. 굳이? 같이 쓰지 뭐
-@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Getter
 public class User extends BaseEntity {
+	@OneToMany(mappedBy = "user")
+	private final List<Order> orders = new ArrayList<>();
 	private String loginId;
 	private String password;
 	private String name;
@@ -26,6 +35,7 @@ public class User extends BaseEntity {
 
 	public User(String loginId, String password, String name, String email, String mobile, LocalDate birth, Gender gender,
 		LocalDateTime createdAt, LocalDateTime updatedAt) {
+
 		this.loginId = loginId;
 		this.password = password;
 		this.name = name;

@@ -1,4 +1,4 @@
-package com.kt.controller;
+package com.kt.controller.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kt.dto.UserCreateRequest;
+import com.kt.common.ApiResult;
+import com.kt.common.SwaggerAssistance;
+import com.kt.dto.UserRequest;
 import com.kt.dto.UserUpdatePasswordRequest;
 import com.kt.service.UserService;
 
@@ -24,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class UserController extends SwaggerAssistance {
 	// userservice di 받아야함
 	// di 받는 방식이 생성자 주입 -> 재할당 금지 == 불변
 
@@ -48,15 +50,16 @@ public class UserController {
 	// loginId, password, name, birthday
 	// json형태의 body에 담겨서 post요청으로 /users로 들어오면
 	// @RequestBody를보고 jacksonObjectMapper가 동작해서 json을 읽어서 dto로 변환
-	public void create(@Valid @RequestBody UserCreateRequest request) {
-
+	public ApiResult<Void> create(@Valid @RequestBody UserRequest.Create request) {
 		userService.create(request);
+		return ApiResult.ok();
 	}
 
 	@GetMapping("/duplicate-login-id")
 	@ResponseStatus(HttpStatus.OK)
-	public Boolean isDuplicatedLoginId(@RequestParam String loginId) {
-		return userService.isDuplicateLoginId(loginId);
+	public ApiResult<Boolean> isDuplicatedLoginId(@RequestParam String loginId) {
+		boolean duplicateLoginId = userService.isDuplicateLoginId(loginId);
+		return ApiResult.ok(duplicateLoginId);
 	}
 	//uri는 식별이 가능해야한다.
 	// 유저들x , 어떤 유저?
@@ -66,18 +69,24 @@ public class UserController {
 	// 1. 바디에 id값을 같이 받는다
 	// 2. uri에 id값을 넣는다. /users/{id}/update-password
 	// 3. 인증/인가 객체에서 id값을 꺼낸다. (V)
-	@PutMapping("/{id}/update-passw	ord")
+	@PutMapping("/{id}/update-password")
 	@ResponseStatus(HttpStatus.OK)
-	public void updatePassword(
+	public ApiResult<Void> updatePassword(
 		@PathVariable Long id,
 		@RequestBody @Valid UserUpdatePasswordRequest request
 	) {
-		userService.changePassword(id, request.oldPassword(), request.newPassword());
+		userService.changePassword(
+			id,
+			request.oldPassword(),
+			request.newPassword()
+		);
+		return ApiResult.ok();
 	}
 
-	@DeleteMapping("{/id}")
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public void delete(@PathVariable Long id) {
+	public ApiResult<Void> delete(@PathVariable Long id) {
 		userService.delete(id);
+		return ApiResult.ok();
 	}
 }

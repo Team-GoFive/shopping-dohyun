@@ -26,7 +26,7 @@ public record UserCreateRequest(
 	String mobile,
 	@NotNull
 	LocalDate birth,
-	@NotBlank
+	@NotNull
 	Gender gender
 ) {
 

@@ -7,26 +7,30 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kt.common.ErrorCode;
+import com.kt.common.Preconditions;
 import com.kt.domain.user.User;
-import com.kt.dto.UserCreateRequest;
-import com.kt.repository.UserJDBCRepository;
+import com.kt.dto.UserRequest;
 import com.kt.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+
+// 구현체가 하나 이상 필요해야 인터페이스 의미
+// 인터페이스 : 구현체 1:1로 다 나눠야하나
+// 관례를 지키려고 추상화를 굳이하는 것을 관습적 추상화
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
 
-	private final UserJDBCRepository userJDBCRepository;
 	private final UserRepository userRepository;
 
 	// 트랜잭션 처리해줘
 	// PSA - Portable Service Abstraction
 	// 환경설정을 살짝 바꿔서 일관된 서비스를 제공하는 것
 	@Transactional
-	public void create(UserCreateRequest request) {
+	public void create(UserRequest.Create request) {
 		System.out.println(request.toString());
 		var newUser = new User(
 			request.loginId(),
@@ -46,17 +50,42 @@ public class UserService {
 	}
 
 	public void changePassword(Long id, String oldPassword, String password) {
-		var user = userRepository.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		var user = userRepository.findByIdOrThrow(
+			id,
+			ErrorCode.NOT_FOUND_USER
+		);
 
-		if (!user.getPassword().equals(oldPassword)) {
-			throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
-		}
+		Preconditions.validate(
+			!user.getPassword().equals(oldPassword),
+			ErrorCode.DOES_NOT_MATCH_OLD_PASSWORD
+		);
 
-		if (oldPassword.equals(password)) {
-			throw new IllegalArgumentException("기존 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.");
-		}
+		Preconditions.validate(
+			!oldPassword.equals(password),
+			ErrorCode.CAN_NOT_ALLOWED_SAME_PASSWORD
+		);
+
 		user.changePassword(password);
+	}
+
+	public User detail(Long id) {
+		return userRepository.findByIdOrThrow(
+			id,
+			ErrorCode.NOT_FOUND_USER
+		);
+	}
+
+	public void update(Long id, String name, String email, String mobile) {
+		User user = userRepository.findByIdOrThrow(
+			id,
+			ErrorCode.NOT_FOUND_USER
+		);
+
+		user.update(
+			name,
+			email,
+			mobile
+		);
 	}
 
 	public boolean isDuplicateLoginId(String loginId) {
@@ -64,19 +93,23 @@ public class UserService {
 	}
 
 	public Page<User> search(Pageable pageable, String keyword) {
-		return userRepository.findAllByNameContaining(keyword, pageable);
+		return userRepository.findAllByNameContaining(
+			keyword,
+			pageable
+		);
 
 	}
 
-	public User detail(Long id) {
-		return userRepository.selectById(id)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-	}
+	// public User detail(Long id) {
+	// 	return userRepository.selectById(id)
+	// 		.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+	// }
 
 	public void delete(Long id) {
 		userRepository.deleteById(id);
-		// 삭제에는 두가지 개념 - softDelete, hardDelete
-		// var user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		// 삭제에는 두가지 개념 - softdelete, harddelete
+		// var user = userRepository.findById(id).
+		// orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		// userRepository.delete(user);
 
 	}
