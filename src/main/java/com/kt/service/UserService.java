@@ -11,7 +11,7 @@ import com.kt.common.ErrorCode;
 import com.kt.common.Preconditions;
 import com.kt.domain.user.User;
 import com.kt.dto.UserRequest;
-import com.kt.repository.UserRepository;
+import com.kt.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,7 +56,7 @@ public class UserService {
 		);
 
 		Preconditions.validate(
-			!user.getPassword().equals(oldPassword),
+			user.getPassword().equals(oldPassword),
 			ErrorCode.DOES_NOT_MATCH_OLD_PASSWORD
 		);
 
