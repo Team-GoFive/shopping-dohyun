@@ -33,9 +33,12 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	public User(String loginId, String password, String name, String email, String mobile, LocalDate birth, Gender gender,
-		LocalDateTime createdAt, LocalDateTime updatedAt) {
+	@Enumerated(EnumType.STRING)
+	private Role role;
 
+	private User(String loginId, String password, String name, String email, String mobile, LocalDate birth,
+		Gender gender,
+		LocalDateTime createdAt, LocalDateTime updatedAt, Role role) {
 		this.loginId = loginId;
 		this.password = password;
 		this.name = name;
@@ -45,6 +48,41 @@ public class User extends BaseEntity {
 		this.gender = gender;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.role = role;
+	}
+
+	public static User normalUser(String loginId, String password, String name, String email, String mobile,
+		LocalDate birth, Gender gender,
+		LocalDateTime createdAt, LocalDateTime updatedAt) {
+		return new User(
+			loginId,
+			password,
+			name,
+			email,
+			mobile,
+			birth,
+			gender,
+			createdAt,
+			updatedAt,
+			Role.USER
+		);
+	}
+
+	public static User adminUser(String loginId, String password, String name, String email, String mobile,
+		LocalDate birth, Gender gender,
+		LocalDateTime createdAt, LocalDateTime updatedAt) {
+		return new User(
+			loginId,
+			password,
+			name,
+			email,
+			mobile,
+			birth,
+			gender,
+			createdAt,
+			updatedAt,
+			Role.ADMIN
+		);
 	}
 
 	public void changePassword(String password) {

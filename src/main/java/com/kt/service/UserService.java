@@ -32,7 +32,7 @@ public class UserService {
 	@Transactional
 	public void create(UserRequest.Create request) {
 		System.out.println(request.toString());
-		var newUser = new User(
+		var newUser = User.normalUser(
 			request.loginId(),
 			request.password(),
 			request.name(),

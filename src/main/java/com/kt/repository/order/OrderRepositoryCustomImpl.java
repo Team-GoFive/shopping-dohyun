@@ -13,7 +13,6 @@ import com.kt.dto.order.OrderResponse;
 import com.kt.dto.order.QOrderResponse_Search;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -53,7 +52,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 				product.name,
 				orderProduct.quantity,
 				// 더미데이터
-				Expressions.asNumber(0L),
+				product.price.multiply(orderProduct.quantity),
 				order.status,
 				order.createdAt
 			)).from(order)
