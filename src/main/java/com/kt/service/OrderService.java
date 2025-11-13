@@ -36,7 +36,10 @@ public class OrderService {
 		String receiverMobile,
 		Long quantity
 	) {
-		Product product = productRepository.findByIdOrThrow(productId);
+
+		// Product product = productRepository.findByIdOrThrow(productId);
+		Product product = productRepository.findByIdPessimistic(productId).orElseThrow();
+
 		// 재고가 충분한가?
 		Preconditions.validate(
 			product.canProvide(quantity),

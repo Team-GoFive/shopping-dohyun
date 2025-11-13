@@ -27,8 +27,11 @@ public enum ErrorCode {
 	NOT_ENOUGH_STOCK(
 		HttpStatus.BAD_REQUEST,
 		"재고가 부족합니다"
+	),
+	INVALID_PARAMETER(
+		HttpStatus.BAD_REQUEST,
+		"필수값 누락입니다."
 	);
-	
 	private final HttpStatus httpStatus;
 	private final String message;
 }

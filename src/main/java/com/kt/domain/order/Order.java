@@ -13,6 +13,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -39,10 +40,10 @@ public class Order extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
 	private List<OrderProduct> orderProducts = new ArrayList<>();
 
-	private Order(Receiver reciever, User user) {
+	private Order(Receiver receiver, User user) {
 		this.receiver = receiver;
 		this.user = user;
 		this.deliveredAt = LocalDateTime.now().plusDays(3);
