@@ -1,10 +1,9 @@
-package com.kt.domain;
+package com.kt.domain.user.model;
 
 import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 // @NoArgsConstructor

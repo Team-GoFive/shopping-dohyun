@@ -1,10 +1,10 @@
-package com.kt.service;
+package com.kt.domain.user.service;
 
 import org.springframework.stereotype.Service;
 
-import com.kt.domain.User;
-import com.kt.dto.UserCreateRequest;
-import com.kt.repository.UserRepository;
+import com.kt.domain.user.model.User;
+import com.kt.domain.user.repository.UserRepository;
+import com.kt.domain.user.request.UserCreateRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ public class UserService {
 
 	public void create(UserCreateRequest request) {
 		System.out.println(request.toString());
-		var newUser  = new User(
+		var newUser = new User(
 			request.loginId(),
 			request.password(),
 			request.name(),
@@ -25,7 +25,6 @@ public class UserService {
 
 		// repository로 넘김
 		userRepository.save(newUser);
-
 
 	}
 }

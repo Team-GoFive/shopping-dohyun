@@ -1,4 +1,4 @@
-package com.kt.controller;
+package com.kt.domain.user.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kt.dto.UserCreateRequest;
-import com.kt.service.UserService;
+import com.kt.domain.user.request.UserCreateRequest;
+import com.kt.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +29,5 @@ public class UserController {
 		userService.create(request);
 		System.out.println(request.toString());
 	}
-
-
 
 }
