@@ -1,12 +1,30 @@
-package com.kt.service;
-import com.kt.domain.User;
-import com.kt.dto.UserCreateRequest;
+package com.kt.domain.user.service;
 
-public interface UserService {
-	void create(UserCreateRequest request);
-	User findByLoginId(String loginId);
-	void delete(String loginId);
+import org.springframework.stereotype.Service;
 
-	// TODO: 필드별 세분화 가능
-	void update(UserCreateRequest request);
+import com.kt.domain.user.model.User;
+import com.kt.domain.user.repository.UserRepository;
+import com.kt.domain.user.request.UserCreateRequest;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+	private final UserRepository userRepository;
+
+	public void create(UserCreateRequest request) {
+		System.out.println(request.toString());
+		var newUser = new User(
+			request.loginId(),
+			request.password(),
+			request.name(),
+			request.birthday()
+		);
+
+		// repository로 넘김
+		userRepository.save(newUser);
+
+	}
 }

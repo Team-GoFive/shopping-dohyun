@@ -1,8 +1,6 @@
-package com.kt.dto;
+package com.kt.domain.user.request;
 
 import java.time.LocalDate;
-
-import com.kt.domain.User;
 
 // loginId, password, name, birthday
 public record UserCreateRequest(
@@ -10,8 +8,6 @@ public record UserCreateRequest(
 	String password,
 	String name,
 	LocalDate birthday
-	) {
-	public User toEntity() {
-		return new User(loginId, password, name, birthday);
-	}
+) {
+
 }
