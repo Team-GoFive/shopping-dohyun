@@ -1,24 +1,9 @@
 package com.kt.security;
 
-import java.util.Collection;
+public interface CurrentUser {
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+	Long getId();
 
-import lombok.Getter;
-
-@Getter
-public class CurrentUser extends User {
-
-	// jwt 파싱해서 넣어주면 됨
-	private Long id;
-
-	public CurrentUser(String username, String password,
-		Collection<? extends GrantedAuthority> authorities) {
-		super(
-			username,
-			password,
-			authorities
-		);
-	}
+	String getLoginId();
 }
+

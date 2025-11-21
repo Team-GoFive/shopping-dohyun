@@ -13,20 +13,27 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.kt.security.JwtFilter;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 	// 패스워드 저장할거면 암호화해
 	// bcrypt 단방향 해시 암호화
 	// 평문은 5번 해싱해서 랜덤한 값을 저장 -> 비교할 때는 5번 해싱해서 같은 지를 비교
 
-	private static final String[] GET_PERMIT_ALL = {"/api/v1/public/**"};
-	private static final String[] POST_PERMIT_ALL = {"/api/v1/public/**"};
+	private static final String[] GET_PERMIT_ALL = {"/api/v1/public/**", "/swagger-ui/**", "/v3/api-docs/**"};
+	private static final String[] POST_PERMIT_ALL = {"/users", "/auth/login"};
 	private static final String[] PUT_PERMIT_ALL = {"/api/v1/public/**"};
 	private static final String[] PATCH_PERMIT_ALL = {"/api/v1/public/**"};
 	private static final String[] DELETE_PERMIT_ALL = {"/api/v1/public/**"};
+	private JwtFilter jwtFilter;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -65,9 +72,13 @@ public class SecurityConfiguration {
 					HttpMethod.DELETE,
 					DELETE_PERMIT_ALL
 				).permitAll();
-			}).authorizeHttpRequests(request -> request.anyRequest().authenticated())
+				request.anyRequest().authenticated();
+			}).addFilterBefore(
+				jwtFilter,
+				UsernamePasswordAuthenticationFilter.class
+			)
 			.csrf(AbstractHttpConfigurer::disable);
-		
+
 		return http.build();
 	}
 }

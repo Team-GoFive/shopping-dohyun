@@ -31,6 +31,18 @@ public enum ErrorCode {
 	INVALID_PARAMETER(
 		HttpStatus.BAD_REQUEST,
 		"필수값 누락입니다."
+	),
+	FAIL_ACQUIRED_LOCK(
+		HttpStatus.BAD_REQUEST,
+		"락 획득에 실패했습니다."
+	),
+	ERROR_SYSTEM(
+		HttpStatus.INTERNAL_SERVER_ERROR,
+		"시스템 오류가 발생했습니다."
+	),
+	FAIL_LOGIN(
+		HttpStatus.BAD_REQUEST,
+		"아이디 혹은 비밀번호가 일치하지 않습니다"
 	);
 	private final HttpStatus httpStatus;
 	private final String message;

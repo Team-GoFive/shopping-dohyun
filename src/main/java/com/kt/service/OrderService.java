@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kt.common.ErrorCode;
+import com.kt.common.Lock;
 import com.kt.common.Preconditions;
 import com.kt.domain.Receiver;
 import com.kt.domain.order.Order;
@@ -28,6 +29,7 @@ public class OrderService {
 	private final OrderProductRepository orderProductRepository;
 
 	// 주문 생성
+	@Lock(key = Lock.Key.STOCK, index = 1)
 	public void create(
 		Long userId,
 		Long productId,
@@ -37,7 +39,6 @@ public class OrderService {
 		Long quantity
 	) {
 
-		// Product product = productRepository.findByIdOrThrow(productId);
 		Product product = productRepository.findByIdPessimistic(productId).orElseThrow();
 
 		// 재고가 충분한가?
@@ -71,7 +72,6 @@ public class OrderService {
 				quantity
 			));
 		// 주문 생성 완료
-
 		product.decreaseStock(quantity);
 
 		// 양방향 테이블 연관 작업

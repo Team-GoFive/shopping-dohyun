@@ -1,6 +1,7 @@
 package com.kt.controller.order;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +11,7 @@ import com.kt.common.ApiResult;
 import com.kt.common.Paging;
 import com.kt.dto.order.OrderResponse;
 import com.kt.repository.order.OrderRepositoryCustom;
+import com.kt.security.CurrentUser;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class AdminOrderController {
 	// 2. 그래도~ 서비스를 통해야한다
 	@GetMapping
 	public ApiResult<Page<OrderResponse.Search>> search(
+		@AuthenticationPrincipal CurrentUser currentUser,
 		@RequestParam(required = false) String keyword,
 		@Parameter(hidden = true) Paging paging
 	) {

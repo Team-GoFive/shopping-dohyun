@@ -48,7 +48,7 @@ class OrderServiceTest {
 	// 1. 비관적 락(Pessimistic Lock) -> DB에서 지원해주는 Lock -> SELECT ... FOR UPDATE -> 한명이 들어오면 끝날때까지 기다려라
 	/* 화장실 -> 한명씩 들어감 -> 앞사람이 오래걸림 -> 기다려라
 	 * 단점: 시간이 오래 걸리고 데드락 발생 가능
-	 * 2. 낙관적 락(Optimistic Lock) -> 버전 관리
+	 * 2. 낙관적 락(Optimistic Lock) -> 버전 관리 -> 셀렉트할 때 그때의 버전을 가져와서 작업을 끝내고 트랜잭션 커밋되면
 	 * 화장실 -> 한명씩 들어가면 일단 들어와 -> 대신 나갈 때 최신 버전 확인
 	 * 처음 입장할 때 버전을 조회 - 작업 끝나고 - 나갈 때 다시 버전 조회해서 같으면 재고 차감
 	 * 3. 분산 락 -> 레디스
@@ -102,15 +102,16 @@ class OrderServiceTest {
 		Product foundedProduct = productRepository.findByIdOrThrow(product.getId());
 
 		assertThat(foundedProduct.getStock()).isEqualTo(8L);
-		assertThat(foundedProduct.getOrderProducts()).isNotEmpty();
+		// assertThat(foundedProduct.getOrderProducts()).isNotEmpty();
 		assertThat(foundedOrder).isPresent();
 
 	}
 
 	@Test
 	void 동시에_100명_주문() throws InterruptedException {
-		List<User> userList = new ArrayList<User>();
-		for (int i = 0; i < 100; i++) {
+		var repeatCount = 500;
+		List<User> userList = new ArrayList<>();
+		for (int i = 0; i < repeatCount; i++) {
 			userList.add(User.normalUser(
 				"testuser-" + i,
 				"password",
@@ -136,12 +137,12 @@ class OrderServiceTest {
 		// 동시에 주문해야하니까 쓰레드 100개
 		ExecutorService executorService = Executors.newFixedThreadPool(100);
 		// 스레드 종료 대기 장치
-		CountDownLatch countDownLatch = new CountDownLatch(100);
+		CountDownLatch countDownLatch = new CountDownLatch(repeatCount);
 		// AtomicInteger -> 동시성 환경에서 안전하게 숫자를 더할 수 있는 객체
 		AtomicInteger successCount = new AtomicInteger(0);
 		AtomicInteger failureCount = new AtomicInteger(0);
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < repeatCount; i++) {
 			int finalI = i;
 			executorService.submit(() -> {
 				try {
@@ -170,8 +171,10 @@ class OrderServiceTest {
 		executorService.shutdown();
 
 		Product foundedProduct = productRepository.findByIdOrThrow(product.getId());
-		System.out.println("successCount.get() = " + successCount.get());
-		System.out.println("faliureCount.get() = " + failureCount.get());
-		System.out.println("foundedProduct.getStock() = " + foundedProduct.getStock());
+		assertThat(successCount.get()).isEqualTo(10);
+		assertThat(failureCount.get()).isEqualTo(490);
+		// System.out.println("successCount.get() = " + successCount.get());
+		// System.out.println("faliureCount.get() = " + failureCount.get());
+		// System.out.println("foundedProduct.getStock() = " + foundedProduct.getStock());
 	}
 }

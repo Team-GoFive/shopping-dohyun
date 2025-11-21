@@ -15,6 +15,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -63,6 +64,9 @@ public class Product extends BaseEntity {
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	private List<OrderProduct> orderProducts = new ArrayList<>();
+
+	@Version
+	private Long version;
 
 	public Product(String name, Long price, Long stock) {
 
