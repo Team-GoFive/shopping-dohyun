@@ -17,7 +17,7 @@ public class CustomerController {
 	// userservice di 받아야함
 	// di 받는 방식이 생성자 주입 -> 재할당 금지 == 불변
 
-	private final CustomerService userService;
+	private final CustomerService customerService;
 
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -26,7 +26,7 @@ public class CustomerController {
 	// @RequestBody를 보고 jacksonObjectMapper가 동작해서 json을 읽어서 dto로 반환
 	public void create(@RequestBody CustomerCreateRequest request) {
 		// jackson object mapper -> json to dto
-		userService.create(request);
+		customerService.create(request);
 		System.out.println(request.toString());
 	}
 
