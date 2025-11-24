@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.kt.domain.address.model.Address;
+import com.kt.domain.order.model.Order;
 import com.kt.global.common.BaseEntity;
 import com.kt.global.constants.Gender;
 
@@ -13,6 +14,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,10 +24,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Customer extends BaseEntity {
-	private String loginId;
+	@NotNull
+	@Email
+	private String email;
 	private UUID uuid;
+	@NotNull
 	private String password;
+	@NotNull
 	private String name;
+	@NotNull
 	private LocalDate birthday;
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
@@ -32,9 +40,11 @@ public class Customer extends BaseEntity {
 	private UserRole role;
 	@OneToMany(mappedBy = "address")
 	private List<Address> addressList = new ArrayList<>();
+	@OneToMany(mappedBy = "order")
+	private List<Order> orderList = new ArrayList<>();
 
 	private Customer(
-		String loginId,
+		String email,
 		UUID uuid,
 		String password,
 		String name,
@@ -42,7 +52,7 @@ public class Customer extends BaseEntity {
 		Gender gender,
 		UserRole role
 	) {
-		this.loginId = loginId;
+		this.email = email;
 		this.uuid = uuid;
 		this.password = password;
 		this.name = name;
@@ -71,7 +81,7 @@ public class Customer extends BaseEntity {
 	}
 
 	public static Customer adminUser(
-		String loginId,
+		String email,
 		UUID uuid,
 		String password,
 		String name,
@@ -79,7 +89,7 @@ public class Customer extends BaseEntity {
 		Gender gender
 	) {
 		return new Customer(
-			loginId,
+			email,
 			uuid,
 			password,
 			name,

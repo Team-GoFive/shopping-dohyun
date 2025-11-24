@@ -22,7 +22,7 @@ public class Address extends BaseEntity {
 	@NotNull
 	String mobile;
 	@NotNull
-	String receiver;
+	String receiverName;
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
