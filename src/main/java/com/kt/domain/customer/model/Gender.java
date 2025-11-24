@@ -1,4 +1,4 @@
-package com.kt.domain.user.model;
+package com.kt.domain.customer.model;
 
 public enum Gender {
 	MALE,

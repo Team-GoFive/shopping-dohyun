@@ -1,12 +1,12 @@
-package com.kt.domain.user.request;
+package com.kt.domain.customer.request;
 
 import java.time.LocalDate;
 
-import com.kt.domain.user.model.Gender;
+import com.kt.domain.customer.model.Gender;
 
 import jakarta.validation.constraints.NotNull;
 
-public record MemberCreateRequest(
+public record CustomerCreateRequest(
 	@NotNull
 	String loginId,
 	@NotNull

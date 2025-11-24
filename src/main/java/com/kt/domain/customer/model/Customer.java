@@ -1,4 +1,4 @@
-package com.kt.domain.user.model;
+package com.kt.domain.customer.model;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class Customer extends BaseEntity {
 	private String loginId;
 	private UUID uuid;
 	private String password;
@@ -26,7 +26,7 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
-	private User(
+	private Customer(
 		String loginId,
 		UUID uuid,
 		String password,
@@ -44,7 +44,7 @@ public class User extends BaseEntity {
 		this.role = role;
 	}
 
-	public static User memberUser(
+	public static Customer memberUser(
 		String loginId,
 		UUID uuid,
 		String password,
@@ -52,18 +52,18 @@ public class User extends BaseEntity {
 		LocalDate birthday,
 		Gender gender
 	) {
-		return new User(
+		return new Customer(
 			loginId,
 			uuid,
 			password,
 			name,
 			birthday,
 			gender,
-			UserRole.MEMBER
+			UserRole.Customer
 		);
 	}
 
-	public static User adminUser(
+	public static Customer adminUser(
 		String loginId,
 		UUID uuid,
 		String password,
@@ -71,7 +71,7 @@ public class User extends BaseEntity {
 		LocalDate birthday,
 		Gender gender
 	) {
-		return new User(
+		return new Customer(
 			loginId,
 			uuid,
 			password,
