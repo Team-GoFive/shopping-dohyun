@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.kt.domain.address.model.Address;
 import com.kt.domain.order.model.Order;
+import com.kt.domain.review.model.Review;
 import com.kt.global.common.BaseEntity;
 import com.kt.global.constants.Gender;
 
@@ -42,6 +43,8 @@ public class Customer extends BaseEntity {
 	private List<Address> addressList = new ArrayList<>();
 	@OneToMany(mappedBy = "order")
 	private List<Order> orderList = new ArrayList<>();
+	@OneToMany(mappedBy = "review")
+	private List<Review> reviewList = new ArrayList<>();
 
 	private Customer(
 		String email,
