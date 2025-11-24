@@ -2,7 +2,7 @@ package com.kt.domain.customer.request;
 
 import java.time.LocalDate;
 
-import com.kt.domain.customer.model.Gender;
+import com.kt.global.constants.Gender;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import com.kt.global.common.BaseEntity;
+import com.kt.global.constants.Gender;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
