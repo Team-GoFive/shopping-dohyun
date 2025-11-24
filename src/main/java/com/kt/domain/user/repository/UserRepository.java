@@ -1,27 +1,8 @@
 package com.kt.domain.user.repository;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.kt.domain.user.model.User;
 
-import lombok.RequiredArgsConstructor;
-
-@Repository
-@RequiredArgsConstructor
-public class UserRepository {
-	private final JdbcTemplate jdbcTemplate;
-
-	public void save(User user) {
-		// 서비스에서 dto를 도메인(비즈니스 모델)으로 바꾼 다음 전달
-		var sql = "INSERT INTO MEMBER (loginId, password, name, birthday) VALUES (?, ?, ?, ?)";
-		jdbcTemplate.update(
-			sql,
-			user.getLoginId(),
-			user.getPassword(),
-			user.getName(),
-			user.getBirthday()
-		);
-		System.out.println("user = " + user.toString());
-	}
+public interface UserRepository extends JpaRepository<User, Long> {
 }
