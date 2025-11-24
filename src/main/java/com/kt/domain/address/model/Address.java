@@ -16,13 +16,13 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Address extends BaseEntity {
 	@NotNull
-	String address;
+	private String address;
 	@NotNull
-	String detailAddress;
+	private String detailAddress;
 	@NotNull
-	String mobile;
+	private String mobile;
 	@NotNull
-	String receiverName;
+	private String receiverName;
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
