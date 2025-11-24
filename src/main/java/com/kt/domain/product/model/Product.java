@@ -31,6 +31,6 @@ public class Product extends BaseEntity {
 	@JoinColumn(name = "store_id")
 	private Store store;
 
-	@OneToMany(mappedBy = "review")
+	@OneToMany(mappedBy = "product")
 	private List<Review> reviewList = new ArrayList<>();
 }

@@ -39,11 +39,11 @@ public class Customer extends BaseEntity {
 	private Gender gender;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
-	@OneToMany(mappedBy = "address")
+	@OneToMany(mappedBy = "customer")
 	private List<Address> addressList = new ArrayList<>();
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "customer")
 	private List<Order> orderList = new ArrayList<>();
-	@OneToMany(mappedBy = "review")
+	@OneToMany(mappedBy = "customer")
 	private List<Review> reviewList = new ArrayList<>();
 
 	private Customer(
