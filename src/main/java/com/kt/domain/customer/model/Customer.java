@@ -1,14 +1,18 @@
 package com.kt.domain.customer.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import com.kt.domain.address.model.Address;
 import com.kt.global.common.BaseEntity;
 import com.kt.global.constants.Gender;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +30,8 @@ public class Customer extends BaseEntity {
 	private Gender gender;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
+	@OneToMany(mappedBy = "address")
+	private List<Address> addressList = new ArrayList<>();
 
 	private Customer(
 		String loginId,
