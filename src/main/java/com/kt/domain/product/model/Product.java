@@ -7,6 +7,7 @@ import com.kt.domain.review.model.Review;
 import com.kt.domain.store.model.Store;
 import com.kt.global.common.BaseEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,16 +22,56 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseEntity {
-	private String productName;
+	@Column(nullable = false)
+	private String name;
+
+	@Column(nullable = false)
 	private Long stock;
+
+	@Column(nullable = false)
 	private Long price;
+
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ProductStatus productStatus;
 
 	@ManyToOne
-	@JoinColumn(name = "store_id")
+	@JoinColumn(name = "store_id", nullable = false)
 	private Store store;
 
 	@OneToMany(mappedBy = "product")
 	private List<Review> reviewList = new ArrayList<>();
+
+	private Product(
+		String name,
+		Long stock,
+		Long price,
+		ProductStatus productStatus,
+		Store store,
+		List<Review> reviewList) {
+		this.name = name;
+		this.stock = stock;
+		this.price = price;
+		this.productStatus = productStatus;
+		this.store = store;
+		this.reviewList = reviewList;
+	}
+
+	public static Product create(
+		String name,
+		Long stock,
+		Long price,
+		ProductStatus productStatus,
+		Store store,
+		List<Review> reviewList
+	) {
+		return new Product(
+			name,
+			stock,
+			price,
+			productStatus,
+			store,
+			reviewList
+		);
+	}
 }

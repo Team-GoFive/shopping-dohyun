@@ -11,6 +11,7 @@ import com.kt.domain.review.model.Review;
 import com.kt.global.common.BaseEntity;
 import com.kt.global.constants.Gender;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,19 +24,35 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Customer extends BaseEntity {
+	@Column(nullable = false)
 	private String email;
+
+	@Column(nullable = false)
 	private UUID uuid;
+
+	@Column(nullable = false)
 	private String password;
+
+	@Column(nullable = false)
 	private String name;
+
+	@Column(nullable = false)
 	private LocalDate birthday;
+
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Gender gender;
+
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
+
 	@OneToMany(mappedBy = "customer")
 	private List<Address> addressList = new ArrayList<>();
+
 	@OneToMany(mappedBy = "customer")
 	private List<Order> orderList = new ArrayList<>();
+	
 	@OneToMany(mappedBy = "customer")
 	private List<Review> reviewList = new ArrayList<>();
 

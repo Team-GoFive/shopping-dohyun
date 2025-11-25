@@ -16,10 +16,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderProduct extends BaseEntity {
 	@ManyToOne
-	@JoinColumn(name = "order_id")
+	@JoinColumn(name = "order_id", nullable = false)
 	private Order order;
 
 	@ManyToOne
-	@JoinColumn(name = "product_id")
+	@JoinColumn(name = "product_id", nullable = false)
 	private Product product;
+
+	private OrderProduct(
+		Order order,
+		Product product
+	) {
+		this.order = order;
+		this.product = product;
+	}
+
+	public static OrderProduct create(
+		Order order,
+		Product product
+	) {
+		return new OrderProduct(
+			order,
+			product
+		);
+	}
 }
