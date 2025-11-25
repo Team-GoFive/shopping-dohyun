@@ -1,4 +1,4 @@
-package com.kt.domain.user.controller;
+package com.kt.domain.customer.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,27 +6,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kt.domain.user.request.MemberCreateRequest;
-import com.kt.domain.user.service.UserService;
+import com.kt.domain.customer.request.CustomerCreateRequest;
+import com.kt.domain.customer.service.CustomerService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class CustomerController {
 	// userservice di 받아야함
 	// di 받는 방식이 생성자 주입 -> 재할당 금지 == 불변
 
-	private final UserService userService;
+	private final CustomerService customerService;
 
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
 	// loginId, password, name, birthday
 	// json형태의 body에 담겨서 post 요청으로 /users로 들어오면
 	// @RequestBody를 보고 jacksonObjectMapper가 동작해서 json을 읽어서 dto로 반환
-	public void create(@RequestBody MemberCreateRequest request) {
+	public void create(@RequestBody CustomerCreateRequest request) {
 		// jackson object mapper -> json to dto
-		userService.create(request);
+		customerService.create(request);
 		System.out.println(request.toString());
 	}
 

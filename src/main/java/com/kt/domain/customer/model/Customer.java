@@ -1,13 +1,21 @@
-package com.kt.domain.user.model;
+package com.kt.domain.customer.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import com.kt.domain.address.model.Address;
+import com.kt.domain.order.model.Order;
+import com.kt.domain.review.model.Review;
 import com.kt.global.common.BaseEntity;
+import com.kt.global.constants.Gender;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,19 +23,41 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
-	private String loginId;
+public class Customer extends BaseEntity {
+	@Column(nullable = false)
+	private String email;
+
+	@Column(nullable = false)
 	private UUID uuid;
+
+	@Column(nullable = false)
 	private String password;
+
+	@Column(nullable = false)
 	private String name;
+
+	@Column(nullable = false)
 	private LocalDate birthday;
+
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Gender gender;
+
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
-	private User(
-		String loginId,
+	@OneToMany(mappedBy = "customer")
+	private List<Address> addressList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "customer")
+	private List<Order> orderList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "customer")
+	private List<Review> reviewList = new ArrayList<>();
+
+	private Customer(
+		String email,
 		UUID uuid,
 		String password,
 		String name,
@@ -35,7 +65,7 @@ public class User extends BaseEntity {
 		Gender gender,
 		UserRole role
 	) {
-		this.loginId = loginId;
+		this.email = email;
 		this.uuid = uuid;
 		this.password = password;
 		this.name = name;
@@ -44,35 +74,35 @@ public class User extends BaseEntity {
 		this.role = role;
 	}
 
-	public static User memberUser(
-		String loginId,
+	public static Customer memberUser(
+		String email,
 		UUID uuid,
 		String password,
 		String name,
 		LocalDate birthday,
 		Gender gender
 	) {
-		return new User(
-			loginId,
+		return new Customer(
+			email,
 			uuid,
 			password,
 			name,
 			birthday,
 			gender,
-			UserRole.MEMBER
+			UserRole.CUSTOMER
 		);
 	}
 
-	public static User adminUser(
-		String loginId,
+	public static Customer adminUser(
+		String email,
 		UUID uuid,
 		String password,
 		String name,
 		LocalDate birthday,
 		Gender gender
 	) {
-		return new User(
-			loginId,
+		return new Customer(
+			email,
 			uuid,
 			password,
 			name,
