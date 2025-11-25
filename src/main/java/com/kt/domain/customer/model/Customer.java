@@ -15,8 +15,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,15 +23,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Customer extends BaseEntity {
-	@NotNull
-	@Email
 	private String email;
 	private UUID uuid;
-	@NotNull
 	private String password;
-	@NotNull
 	private String name;
-	@NotNull
 	private LocalDate birthday;
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
@@ -79,7 +72,7 @@ public class Customer extends BaseEntity {
 			name,
 			birthday,
 			gender,
-			UserRole.Customer
+			UserRole.CUSTOMER
 		);
 	}
 
