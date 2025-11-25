@@ -35,25 +35,29 @@ public class Address extends BaseEntity {
 		String address,
 		String detailAddress,
 		String mobile,
-		String receiverName
+		String receiverName,
+		Customer customer
 	) {
 		this.address = address;
 		this.detailAddress = detailAddress;
 		this.mobile = mobile;
 		this.receiverName = receiverName;
+		this.customer = customer;
 	}
 
 	public static Address create(
 		String address,
 		String detailAddress,
 		String mobile,
-		String receiverName
+		String receiverName,
+		Customer customer
 	) {
 		return new Address(
 			address,
 			detailAddress,
 			mobile,
-			receiverName
+			receiverName,
+			customer
 		);
 	}
 }
