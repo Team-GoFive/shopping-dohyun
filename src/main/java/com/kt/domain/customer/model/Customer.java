@@ -52,7 +52,7 @@ public class Customer extends BaseEntity {
 
 	@OneToMany(mappedBy = "customer")
 	private List<Order> orderList = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "customer")
 	private List<Review> reviewList = new ArrayList<>();
 
@@ -75,7 +75,7 @@ public class Customer extends BaseEntity {
 	}
 
 	public static Customer memberUser(
-		String loginId,
+		String email,
 		UUID uuid,
 		String password,
 		String name,
@@ -83,7 +83,7 @@ public class Customer extends BaseEntity {
 		Gender gender
 	) {
 		return new Customer(
-			loginId,
+			email,
 			uuid,
 			password,
 			name,
