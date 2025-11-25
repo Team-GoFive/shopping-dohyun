@@ -27,12 +27,12 @@ public class Order extends BaseEntity {
 
 	@Column(nullable = false)
 	private Long totalPrice;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "customer_id", nullable = false)
 	private Customer customer;
 
-	@OneToMany(mappedBy = "order_product")
+	@OneToMany(mappedBy = "order")
 	private List<OrderProduct> orderProductList = new ArrayList<>();
 
 	private Order(
