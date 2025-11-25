@@ -8,6 +8,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+
+//TODO: refactor
 public class ErrorResponse {
 	private HttpStatus status;
 	private String message;
