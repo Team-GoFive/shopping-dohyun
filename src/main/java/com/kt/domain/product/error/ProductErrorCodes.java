@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 public enum ProductErrorCodes implements ErrorCode {
 	PRODUCT_NOT_FOUND(
 		HttpStatus.NOT_FOUND,
-		"고객 정보를 찾지 못했습니다.",
-		"A01"
+		"주문 정보를 찾지 못했습니다.",
+		"P01"
 	),
 	;
 

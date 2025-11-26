@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum SellerErrorCodes implements ErrorCode {
-	CUSTOMER_NOT_FOUND(
+	SELLER_NOT_FOUND(
 		HttpStatus.NOT_FOUND,
 		"판매자 정보를 찾지 못했습니다.",
 		"SE01"
