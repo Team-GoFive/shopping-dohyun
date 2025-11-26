@@ -9,23 +9,23 @@ import lombok.Getter;
 @Getter
 public class ApiResult<T> {
 
-	private String code;
 	private String message;
+	private String code;
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private T data;
 
 	public static ApiResult<Void> ok() {
 		return ApiResult.of(
-			"ok",
 			"성공",
+			"ok",
 			null
 		);
 	}
 
 	public static <T> ApiResult<T> ok(T data) {
 		return ApiResult.of(
-			"ok",
 			"성공",
+			"ok",
 			data
 		);
 	}
@@ -36,8 +36,8 @@ public class ApiResult<T> {
 		T data
 	) {
 		return new ApiResult<>(
-			code,
 			message,
+			code,
 			data
 		);
 	}
