@@ -15,10 +15,10 @@ import io.swagger.v3.oas.annotations.Hidden;
 public class ApiAdvice {
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse.ErrorData> internalServerError(Exception e) {
+	public ResponseEntity<ErrorResponse> internalServerError(Exception e) {
 		e.printStackTrace();
 		// 서버에러입니다.
-		return ErrorResponse.error(
+		return ErrorResponse.of(
 			HttpStatus.INTERNAL_SERVER_ERROR,
 			"서버 에러입니다. 백엔드 팀에 문의해주세요",
 			"error"
@@ -26,8 +26,8 @@ public class ApiAdvice {
 	}
 
 	@ExceptionHandler(CustomException.class)
-	public ResponseEntity<ErrorResponse.ErrorData> customException(CustomException e) {
-		return ErrorResponse.error(
+	public ResponseEntity<ErrorResponse> customException(CustomException e) {
+		return ErrorResponse.of(
 			e.getErrorCode().getHttpStatus(),
 			e.getErrorCode().getMessage(),
 			e.getErrorCode().getCode()
@@ -35,7 +35,7 @@ public class ApiAdvice {
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ErrorResponse.ErrorData> methodArgumentNotValidException(MethodArgumentNotValidException e) {
+	public ResponseEntity<ErrorResponse> methodArgumentNotValidException(MethodArgumentNotValidException e) {
 		e.printStackTrace();
 		var details = Arrays.toString(e.getDetailMessageArguments());
 		var message = details.split(
@@ -46,7 +46,7 @@ public class ApiAdvice {
 			""
 		).trim();
 
-		return ErrorResponse.error(
+		return ErrorResponse.of(
 			HttpStatus.BAD_REQUEST,
 			message,
 			"A01"
