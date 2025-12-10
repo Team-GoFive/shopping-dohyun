@@ -1,15 +1,11 @@
 package com.kt.domain.seller.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.kt.domain.store.model.Store;
 import com.kt.global.common.BaseEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,43 +14,40 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Seller extends BaseEntity {
-	@Column(nullable = false)
+	@Column
+	@NotNull
 	private String name;
 
-	@Column(nullable = false)
+	@Column
+	@NotNull
 	private String mobile;
 
-	@Column(nullable = false)
+	@Column
+	@NotNull
 	@Email
 	private String email;
-	@OneToMany(mappedBy = "seller")
-	private List<Store> storeList = new ArrayList<>();
 
 	// TODO: 사업자 등록 번호
 
 	private Seller(
 		String name,
 		String mobile,
-		String email,
-		List<Store> storeList
+		String email
 	) {
 		this.name = name;
 		this.mobile = mobile;
 		this.email = email;
-		this.storeList = storeList;
 	}
 
 	public static Seller create(
 		String name,
 		String mobile,
-		String email,
-		List<Store> storeList
+		String email
 	) {
 		return new Seller(
 			name,
 			mobile,
-			email,
-			storeList
+			email
 		);
 	}
 }

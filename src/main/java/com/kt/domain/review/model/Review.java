@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,15 +19,20 @@ import lombok.NoArgsConstructor;
 public class Review extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
+	@NotNull
 	Product product;
 
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
+	@NotNull
 	Customer customer;
 
-	@Column(nullable = false)
+	@Column
+	@NotNull
 	private Double rating;
 
+	@Column
+	@NotNull
 	private String comment;
 
 	private Review(
