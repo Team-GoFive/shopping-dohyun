@@ -1,10 +1,6 @@
 package com.kt.domain.order.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.kt.domain.customer.model.Customer;
-import com.kt.domain.orderproduct.model.OrderProduct;
 import com.kt.global.common.BaseEntity;
 
 import jakarta.persistence.Column;
@@ -12,7 +8,6 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,9 +26,6 @@ public class Order extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "customer_id", nullable = false)
 	private Customer customer;
-
-	@OneToMany(mappedBy = "order")
-	private List<OrderProduct> orderProductList = new ArrayList<>();
 
 	private Order(
 		AddressVO addressVO,
