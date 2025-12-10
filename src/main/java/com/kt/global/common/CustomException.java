@@ -3,12 +3,10 @@ package com.kt.global.common;
 import lombok.Getter;
 
 @Getter
-public class CustomException extends RuntimeException {
-	private final ErrorCode errorCode;
+public class CustomException extends BaseException {
 
-	public CustomException(ErrorCode errorCode) {
-		super(errorCode.getMessage());
-		this.errorCode = errorCode;
+	public CustomException(ErrorCode error) {
+		super(error);
 	}
 
 }

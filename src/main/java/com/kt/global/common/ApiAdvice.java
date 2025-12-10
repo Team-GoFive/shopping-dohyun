@@ -14,23 +14,21 @@ import io.swagger.v3.oas.annotations.Hidden;
 @RestControllerAdvice
 public class ApiAdvice {
 
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse> internalServerError(Exception e) {
-		e.printStackTrace();
-		// 서버에러입니다.
-		return ErrorResponse.of(
-			HttpStatus.INTERNAL_SERVER_ERROR,
-			"서버 에러입니다. 백엔드 팀에 문의해주세요",
-			"error"
-		);
-	}
-
 	@ExceptionHandler(CustomException.class)
 	public ResponseEntity<ErrorResponse> customException(CustomException e) {
 		return ErrorResponse.of(
-			e.getErrorCode().getHttpStatus(),
-			e.getErrorCode().getMessage(),
-			e.getErrorCode().getCode()
+			e.error().getHttpStatus(),
+			e.error().getMessage(),
+			e.error().getCode()
+		);
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse> internalServerError(Exception e) {
+		return ErrorResponse.of(
+			HttpStatus.INTERNAL_SERVER_ERROR,
+			"서버 에러입니다. 백엔드팀에 문의해주세요",
+			"E01"
 		);
 	}
 
